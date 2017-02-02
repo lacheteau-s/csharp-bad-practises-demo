@@ -24,26 +24,59 @@ namespace Demo
         {
             InitializeComponent();
 
-            button1.Click += Button_Click1;
+            button1.Click += Button1_Click;
+            button2.Click += Button2_Click;
+            button3.Click += Button3_Click;
         }
 
         #region Async void exception
-        private void Button_Click1(object sender, RoutedEventArgs e)
+        private async void Button1_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 ThrowExceptionAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // Exception is never caught
-                MessageBox.Show("Caught exception");
+                MessageBox.Show(ex.Message);
             }
         }
 
         private async void ThrowExceptionAsync()
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException("Exception thrown from an async void returning method");
+        }
+        #endregion
+
+        #region Async Task Exception
+        private void Button2_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ThrowTaskExceptionAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async void Button3_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await ThrowTaskExceptionAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async Task ThrowTaskExceptionAsync()
+        {
+            throw new InvalidOperationException("Exception thrown from an async Task returning method");
         }
         #endregion
     }
